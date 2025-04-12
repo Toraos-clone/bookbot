@@ -1,18 +1,26 @@
+from stats import get_num_words
+from stats import charCount
+import sys
+
+
 def main():
-    bookPath = "books/frankenstein.txt"
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    bookPath = sys.argv[1]
     text = getBookText(bookPath)
-    numWords = getNumWords(text)
+    numWords = get_num_words(text)
     charCounts = charCount(text)
-    print(f"--- Begin report of {bookPath} ---")
-    print(f"There were {numWords} words found in the document")
+    print("--- Begin report of Frankenstein; Or, The Modern Prometheus ---")
+    print(f"Found {numWords} total words")
     #print(charCount)
     printOrderedChars(charCounts)
     print("--- End report ---")
     
 
-def getNumWords(text):
-    words = text.split()
-    return len(words)
+# def getNumWords(text):
+#     words = text.split()
+#     return len(words)
 
 
 def getBookText(path):
@@ -20,15 +28,15 @@ def getBookText(path):
         return f.read()
     
 
-def charCount(text):
-    charDict = {}
-    for char in text:
-        char = char.lower()
-        if char not in charDict.keys():
-            charDict[char] = 1
-        else:
-            charDict[char] += 1
-    return charDict
+# def charCount(text):
+#     charDict = {}
+#     for char in text:
+#         char = char.lower()
+#         if char not in charDict.keys():
+#             charDict[char] = 1
+#         else:
+#             charDict[char] += 1
+#     return charDict
     
 def printOrderedChars(charCounts):
     def getCount(item):
@@ -36,6 +44,6 @@ def printOrderedChars(charCounts):
     sortedChars = sorted(charCounts.items(), key=getCount, reverse=True)
     for char, count in sortedChars:
         if char.isalpha():
-            print(f"The '{char}' character was found {count} times")
+            print(f"{char}: {count}")
         
 main()
